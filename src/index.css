@@ -1,0 +1,378 @@
+/* ==========================================================================
+   TIARA MAMUAYA — CYBER-PINK DESIGN SYSTEM SPECIFICATION (Vanilla Modern CSS)
+   ========================================================================== */
+
+:root {
+  /* Core Backgrounds */
+  --bg-dark-void: #07070a;
+  --bg-dark-surface: #0d0e15;
+  --bg-card: rgba(18, 18, 26, 0.72);
+  --bg-card-hover: rgba(26, 22, 36, 0.85);
+  --bg-card-active: rgba(36, 26, 48, 0.9);
+
+  /* Cyber Pink Brand Palette */
+  --pink-primary: #ff2e93;
+  --pink-secondary: #ff5da2;
+  --pink-glow: rgba(255, 46, 147, 0.35);
+  --pink-subtle: rgba(255, 46, 147, 0.12);
+  --pink-border: rgba(255, 46, 147, 0.28);
+  --pink-border-glow: rgba(255, 46, 147, 0.65);
+
+  /* Functional Accents */
+  --accent-cyan: #00f2fe;
+  --accent-cyan-glow: rgba(0, 242, 254, 0.3);
+  --accent-purple: #9d4edd;
+  --status-active: #00f076;
+  --status-warning: #ffb703;
+
+  /* Typography Colors */
+  --text-pure: #ffffff;
+  --text-high: #f2f2f7;
+  --text-medium: #a4a4ba;
+  --text-muted: #67677d;
+
+  /* Glassmorphism & Borders */
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --border-glass-hover: rgba(255, 46, 147, 0.45);
+  --glass-blur: blur(16px);
+  --shadow-neon-sm: 0 0 14px rgba(255, 46, 147, 0.3);
+  --shadow-neon-md: 0 0 28px rgba(255, 46, 147, 0.4);
+  --shadow-neon-lg: 0 10px 40px rgba(255, 46, 147, 0.25);
+  --shadow-card: 0 16px 36px -10px rgba(0, 0, 0, 0.75);
+
+  /* Font Families */
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Dimensions */
+  --max-width: 1240px;
+  --navbar-height: 72px;
+
+  /* Transitions */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 280ms;
+  --duration-slow: 500ms;
+}
+
+/* Base Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--navbar-height) + 24px);
+  background-color: var(--bg-dark-void);
+  color: var(--text-high);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--bg-dark-void);
+}
+
+/* Custom Cyber Pink Scrollbar */
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 46, 147, 0.35);
+  border-radius: 6px;
+  border: 2px solid var(--bg-dark-void);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pink-primary);
+  box-shadow: var(--shadow-neon-sm);
+}
+
+/* Typography Defaults */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--text-pure);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-smooth);
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* Global Container */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+/* Section Common Structure */
+.section {
+  padding: 100px 0;
+  position: relative;
+  z-index: 2;
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: 64px 0;
+  }
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 56px auto;
+}
+
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  border-radius: 999px;
+  background: var(--pink-subtle);
+  border: 1px solid var(--pink-border);
+  color: var(--pink-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  box-shadow: 0 0 16px rgba(255, 46, 147, 0.15);
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-medium);
+  line-height: 1.65;
+}
+
+/* Cyber Pink Gradient Text Utility */
+.gradient-text {
+  background: linear-gradient(135deg, #ffffff 0%, var(--pink-secondary) 50%, var(--pink-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.neon-pink-text {
+  color: var(--pink-secondary);
+  text-shadow: 0 0 16px rgba(255, 46, 147, 0.6);
+}
+
+/* Glassmorphic Cyber Cards */
+.cyber-card {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  transition: all var(--duration-normal) var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 46, 147, 0.3), transparent);
+  pointer-events: none;
+}
+
+.cyber-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-glass-hover);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 46, 147, 0.2);
+  transform: translateY(-4px);
+}
+
+/* Interactive Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 28px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--pink-primary), #d90466);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: 0 0 20px rgba(255, 46, 147, 0.4);
+  transition: all var(--duration-normal) var(--ease-spring);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 30px rgba(255, 46, 147, 0.65);
+  color: #ffffff;
+}
+
+.btn-primary:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-glass);
+  color: var(--text-high);
+  font-weight: 600;
+  font-size: 0.95rem;
+  backdrop-filter: var(--glass-blur);
+  transition: all var(--duration-normal) var(--ease-smooth);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 46, 147, 0.1);
+  border-color: var(--pink-border-glow);
+  color: var(--pink-secondary);
+  box-shadow: 0 0 16px rgba(255, 46, 147, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Badge / Tech Pills */
+.tech-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 8px;
+  background: rgba(255, 46, 147, 0.08);
+  border: 1px solid rgba(255, 46, 147, 0.2);
+  color: var(--pink-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: all var(--duration-fast) var(--ease-smooth);
+}
+
+.tech-pill:hover {
+  background: rgba(255, 46, 147, 0.18);
+  border-color: var(--pink-primary);
+  box-shadow: 0 0 10px rgba(255, 46, 147, 0.3);
+}
+
+/* Pulse Glow & Floating Keyframes */
+@keyframes pulse-pink {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 46, 147, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(255, 46, 147, 0);
+  }
+}
+
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+.animate-pulse-pink {
+  animation: pulse-pink 2.5s infinite;
+}
+
+.animate-float {
+  animation: float-subtle 4s ease-in-out infinite;
+}
+
+/* Modal Backdrop & Animation */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(7, 7, 10, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 200ms ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalPop {
+  from {
+    opacity: 0;
+    transform: scale(0.94) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-content-box {
+  animation: modalPop 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 90vh;
+  overflow-y: auto;
+}
