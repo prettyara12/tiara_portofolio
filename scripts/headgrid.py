@@ -24,7 +24,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(Path(__file__).parent))
 from cutout import cutout  # noqa: E402
 
-COLS, ROWS = 11, 9
+COLS, ROWS = 21, 9  # 2° steps left-right (the main motion), 3.5° up-down
 YAW, PITCH = 20, 14  # max head turn in degrees (the model's limit is 20)
 SIZE = 800
 SRC = ROOT / 'design-src' / 'cartoon' / 'tiara-cartoon.png'
