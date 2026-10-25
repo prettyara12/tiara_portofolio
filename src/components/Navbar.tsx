@@ -1,27 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, Moon, Sun, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { profile } from '../data/profile';
 
 export interface NavLink {
   id: string;
   label: string;
 }
-
-const useTheme = () => {
-  const [dark, setDark] = useState(() => document.documentElement.classList.contains('dark'));
-  const toggle = () => {
-    const next = !dark;
-    document.documentElement.classList.toggle('dark', next);
-    try {
-      localStorage.setItem('theme', next ? 'dark' : 'light');
-    } catch {
-      // storage blocked (private mode): theme still applies for this visit
-    }
-    setDark(next);
-  };
-  return { dark, toggle };
-};
 
 const useActiveSection = (ids: string[]) => {
   const [active, setActive] = useState('');
@@ -40,7 +25,6 @@ const useActiveSection = (ids: string[]) => {
 };
 
 export const Navbar: React.FC<{ links: NavLink[] }> = ({ links }) => {
-  const { dark, toggle } = useTheme();
   const active = useActiveSection(links.map((l) => l.id));
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -81,13 +65,6 @@ export const Navbar: React.FC<{ links: NavLink[] }> = ({ links }) => {
         </ul>
 
         <div className="flex items-center gap-2">
-          <button
-            onClick={toggle}
-            aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
-            className="grid size-10 place-items-center rounded-full border border-line transition-colors hover:bg-ink hover:text-paper"
-          >
-            {dark ? <Sun size={16} /> : <Moon size={16} />}
-          </button>
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? 'Close menu' : 'Open menu'}

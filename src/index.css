@@ -1,7 +1,5 @@
 @import 'tailwindcss';
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 :root {
   --paper: #f6f2ec;
   --card: #eee7de;
@@ -11,17 +9,6 @@
   --accent: #b4235a;
   --accent-ink: #f6f2ec;
   color-scheme: light;
-}
-
-.dark {
-  --paper: #141112;
-  --card: #1f1a1b;
-  --ink: #f3eee8;
-  --muted: #a39a92;
-  --line: rgb(243 238 232 / 0.12);
-  --accent: #e0628f;
-  --accent-ink: #141112;
-  color-scheme: dark;
 }
 
 @theme inline {
