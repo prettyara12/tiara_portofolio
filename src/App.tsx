@@ -1,83 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { CyberBackground } from './components/CyberBackground';
-import { Navbar } from './components/Navbar';
+import React from 'react';
+import { useReducedMotion } from 'motion/react';
+import { ReactLenis } from 'lenis/react';
+import { Navbar, NavLink } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Skills } from './components/Skills';
 import { Projects } from './components/Projects';
-import { ProjectModal } from './components/ProjectModal';
 import { Experience } from './components/Experience';
 import { Certificates } from './components/Certificates';
-import { CertificateLightbox } from './components/CertificateLightbox';
 import { Contact } from './components/Contact';
-import { QuickDock } from './components/QuickDock';
 import { Footer } from './components/Footer';
-import { Project, Certificate } from './types/portfolio';
+import { skills } from './data/profile';
+import { projects } from './data/projects';
+import { experience } from './data/experience';
+import { certificates } from './data/certificates';
+
+// Sections with no data are hidden along with their nav link.
+const sections = [
+  { id: 'about', label: 'About', show: true, Component: About },
+  { id: 'skills', label: 'Skills', show: skills.length > 0, Component: Skills },
+  { id: 'projects', label: 'Projects', show: projects.length > 0, Component: Projects },
+  { id: 'experience', label: 'Experience', show: experience.length > 0, Component: Experience },
+  { id: 'certificates', label: 'Certificates', show: certificates.length > 0, Component: Certificates },
+  { id: 'contact', label: 'Contact', show: true, Component: Contact }
+].filter((s) => s.show);
+
+const links: NavLink[] = sections.map(({ id, label }) => ({ id, label }));
+const pad = (n: number) => String(n).padStart(2, '0');
 
 export const App: React.FC = () => {
-  const [activeSection, setActiveSection] = useState('home');
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [selectedCertificate, setSelectedCertificate] = useState<Certificate | null>(null);
-
-  // Scroll spy observer to highlight active section in Navbar
-  useEffect(() => {
-    const sections = ['home', 'about', 'skills', 'projects', 'experience', 'certificates', 'contact'];
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200;
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const el = document.getElementById(sections[i]);
-        if (el) {
-          const top = el.offsetTop;
-          if (scrollPosition >= top) {
-            setActiveSection(sections[i]);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const reduced = useReducedMotion();
 
   return (
-    <div className="app-layout" style={{ position: 'relative', minHeight: '100vh' }}>
-      {/* 1. Interactive HTML5 Canvas Background */}
-      <CyberBackground />
-
-      {/* 2. Floating Cyber Navbar with Scroll-Spy & Audio Toggle */}
-      <Navbar activeSection={activeSection} />
-
-      {/* 3. Main Content Sections */}
+    <ReactLenis root options={{ anchors: { offset: -64, immediate: !!reduced }, smoothWheel: !reduced }}>
+      <Navbar links={links} />
       <main>
         <Hero />
-        <About />
-        <Skills />
-        <Projects onSelectProject={(project) => setSelectedProject(project)} />
-        <Experience />
-        <Certificates onSelectCertificate={(cert) => setSelectedCertificate(cert)} />
-        <Contact />
+        {sections.map(({ id, Component }, i) => (
+          <Component key={id} index={pad(i + 1)} />
+        ))}
       </main>
-
-      {/* 4. Quick Dock & Footer */}
-      <QuickDock />
       <Footer />
-
-      {/* 5. Modals & Lightbox Overlays */}
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
-
-      <CertificateLightbox
-        certificate={selectedCertificate}
-        onClose={() => setSelectedCertificate(null)}
-      />
-    </div>
+    </ReactLenis>
   );
 };
 

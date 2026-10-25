@@ -32,3 +32,6 @@ dist-ssr
 # Temporary files
 *.tmp
 *.temp
+
+# Original pose photos (large PNGs); processed WebPs live in public/poses
+design-src

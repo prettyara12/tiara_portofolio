@@ -1,58 +1,16 @@
-export type ProjectCategory = 'all' | 'mobile' | 'fullstack';
-
-export interface AppScreen {
-  id: string;
-  name: string;
-  icon: string;
-  headerTitle: string;
-  subtitle: string;
-  badge?: string;
-  mockContent: {
-    heroMetric?: { label: string; value: string; trend?: string };
-    listItems: Array<{
-      title: string;
-      desc: string;
-      time?: string;
-      status?: string;
-      icon?: string;
-      badgeColor?: string;
-    }>;
-    actionLabel?: string;
-  };
-}
-
 export interface Project {
   id: string;
   title: string;
-  subtitle: string;
-  category: 'mobile' | 'fullstack';
-  featured: boolean;
-  tagline: string;
-  shortDescription: string;
-  fullDescription: string;
-  architecture: string[];
-  features: string[];
-  challenges: string;
-  metrics: string[];
-  tags: string[];
-  githubUrl?: string;
-  demoUrl?: string;
-  apkDownloadUrl?: string;
-  color: string;
-  screens: AppScreen[];
-}
-
-export type SkillCategory = 'all' | 'mobile' | 'frontend' | 'backend' | 'tools';
-
-export interface Skill {
-  name: string;
-  category: 'mobile' | 'frontend' | 'backend' | 'tools';
-  level: number; // 0 - 100
-  levelText: string;
-  experience: string;
-  icon: string;
+  summary: string;
   description: string;
-  featured?: boolean;
+  year?: string;
+  role?: string;
+  stack: string[];
+  highlights: string[];
+  /** Path under /public, e.g. '/projects/campus-hub.webp' */
+  image?: string;
+  repoUrl?: string;
+  liveUrl?: string;
 }
 
 export interface Experience {
@@ -60,39 +18,22 @@ export interface Experience {
   role: string;
   organization: string;
   period: string;
-  location: string;
-  type: 'academic' | 'internship' | 'organization';
-  status: 'Current' | 'Completed';
+  location?: string;
   description: string;
-  keyPoints: string[];
-  skills: string[];
+  highlights: string[];
 }
 
 export interface Certificate {
   id: string;
   title: string;
   issuer: string;
-  issuedDate: string;
-  credentialId: string;
+  date: string;
+  /** Path under /public, e.g. '/certificates/meta-rn.webp' */
+  image?: string;
   credentialUrl?: string;
-  category: 'Mobile' | 'Backend & Python' | 'Cloud & Database' | 'Academic';
-  skillsCovered: string[];
-  description: string;
-  badgeColor?: string;
 }
 
-export interface BioStat {
+export interface SkillGroup {
   label: string;
-  value: string;
-  suffix?: string;
-  detail: string;
-  icon: string;
-}
-
-export interface SocialLink {
-  name: string;
-  url: string;
-  label: string;
-  icon: string;
-  color?: string;
+  items: string[];
 }

@@ -1,350 +1,64 @@
 import React, { useState } from 'react';
-import {
-  Smartphone,
-  ExternalLink,
-  Github,
-  Sparkles,
-  ArrowUpRight,
-  Layers,
-  ChevronRight
-} from 'lucide-react';
-import { projectsData } from '../data/portfolioData';
-import { Project, ProjectCategory } from '../types/portfolio';
-import { soundEngine } from '../utils/audio';
+import { motion } from 'motion/react';
+import { ArrowUpRight } from 'lucide-react';
+import { projects } from '../data/projects';
+import type { Project } from '../types/portfolio';
+import { Reveal, Section, Tag } from './ui';
+import { ProjectModal } from './ProjectModal';
 
-interface ProjectsProps {
-  onSelectProject: (project: Project) => void;
-}
-
-export const Projects: React.FC<ProjectsProps> = ({ onSelectProject }) => {
-  const [activeCategory, setActiveCategory] = useState<ProjectCategory>('all');
-
-  const filteredProjects = projectsData.filter((p) =>
-    activeCategory === 'all' ? true : p.category === activeCategory
+const Cover: React.FC<{ project: Project }> = ({ project }) =>
+  project.image ? (
+    <img src={project.image} alt="" className="size-full object-cover transition-transform duration-700 group-hover:scale-105" />
+  ) : (
+    <div className="grid size-full place-items-center bg-[radial-gradient(circle_at_30%_20%,var(--accent),transparent_60%)] opacity-90">
+      <span className="font-serif text-7xl italic text-paper/90 transition-transform duration-700 group-hover:scale-110">
+        {project.title}
+      </span>
+    </div>
   );
 
-  const handleCategoryChange = (cat: ProjectCategory) => {
-    soundEngine.playSwitch();
-    setActiveCategory(cat);
-  };
+export const Projects: React.FC<{ index: string }> = ({ index }) => {
+  const [selected, setSelected] = useState<Project | null>(null);
 
   return (
-    <section id="projects" className="section">
-      <div className="container">
-        {/* Section Header */}
-        <div className="section-header">
-          <div className="section-badge">
-            <Smartphone size={14} />
-            <span>Featured Portfolio Works</span>
-          </div>
-          <h2 className="section-title">
-            Featured <span className="gradient-text">Projects</span>
-          </h2>
-          <p className="section-subtitle">
-            Koleksi aplikasi mobile dan solusi perangkat lunak yang dirancang dan dibangun oleh Tiara, memadukan performa native dan estetika visual tingkat tinggi.
-          </p>
-        </div>
-
-        {/* Category Filter Pills */}
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '12px',
-            marginBottom: '44px'
-          }}
-        >
-          <button
-            onClick={() => handleCategoryChange('all')}
-            onMouseEnter={() => soundEngine.playHover()}
-            style={{
-              padding: '9px 20px',
-              borderRadius: '999px',
-              fontSize: '0.88rem',
-              fontWeight: activeCategory === 'all' ? '700' : '500',
-              color: activeCategory === 'all' ? '#ffffff' : 'var(--text-medium)',
-              background: activeCategory === 'all' ? 'var(--pink-primary)' : 'rgba(255, 255, 255, 0.04)',
-              border: activeCategory === 'all' ? '1px solid var(--pink-primary)' : '1px solid var(--border-glass)',
-              boxShadow: activeCategory === 'all' ? '0 0 16px rgba(255, 46, 147, 0.4)' : 'none',
-              transition: 'all 0.2s ease',
-              cursor: 'pointer'
-            }}
-          >
-            All Projects ({projectsData.length})
-          </button>
-          <button
-            onClick={() => handleCategoryChange('mobile')}
-            onMouseEnter={() => soundEngine.playHover()}
-            style={{
-              padding: '9px 20px',
-              borderRadius: '999px',
-              fontSize: '0.88rem',
-              fontWeight: activeCategory === 'mobile' ? '700' : '500',
-              color: activeCategory === 'mobile' ? '#ffffff' : 'var(--text-medium)',
-              background: activeCategory === 'mobile' ? 'var(--pink-primary)' : 'rgba(255, 255, 255, 0.04)',
-              border: activeCategory === 'mobile' ? '1px solid var(--pink-primary)' : '1px solid var(--border-glass)',
-              boxShadow: activeCategory === 'mobile' ? '0 0 16px rgba(255, 46, 147, 0.4)' : 'none',
-              transition: 'all 0.2s ease',
-              cursor: 'pointer'
-            }}
-          >
-            Mobile Apps (React Native)
-          </button>
-          <button
-            onClick={() => handleCategoryChange('fullstack')}
-            onMouseEnter={() => soundEngine.playHover()}
-            style={{
-              padding: '9px 20px',
-              borderRadius: '999px',
-              fontSize: '0.88rem',
-              fontWeight: activeCategory === 'fullstack' ? '700' : '500',
-              color: activeCategory === 'fullstack' ? '#ffffff' : 'var(--text-medium)',
-              background: activeCategory === 'fullstack' ? 'var(--pink-primary)' : 'rgba(255, 255, 255, 0.04)',
-              border: activeCategory === 'fullstack' ? '1px solid var(--pink-primary)' : '1px solid var(--border-glass)',
-              boxShadow: activeCategory === 'fullstack' ? '0 0 16px rgba(255, 46, 147, 0.4)' : 'none',
-              transition: 'all 0.2s ease',
-              cursor: 'pointer'
-            }}
-          >
-            Fullstack & Cloud
-          </button>
-        </div>
-
-        {/* Projects Bento Grid */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-            gap: '28px'
-          }}
-        >
-          {filteredProjects.map((project) => (
-            <div
-              key={project.id}
-              className="cyber-card"
-              onMouseEnter={() => soundEngine.playHover()}
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: '30px',
-                border: '1px solid rgba(255, 255, 255, 0.09)',
-                minHeight: '440px'
-              }}
-            >
-              <div>
-                {/* Top Card Bar */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '18px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <div
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '10px',
-                        background: 'rgba(255, 46, 147, 0.12)',
-                        border: '1px solid rgba(255, 46, 147, 0.3)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        color: 'var(--pink-secondary)'
-                      }}
-                    >
-                      <Smartphone size={18} />
-                    </div>
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        fontWeight: '600',
-                        color: 'var(--pink-secondary)',
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.04em'
-                      }}
-                    >
-                      {project.category === 'mobile' ? 'Mobile App' : 'Cloud Sync'}
-                    </span>
-                  </div>
-
-                  {project.featured && (
-                    <span
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '4px',
-                        fontSize: '0.72rem',
-                        padding: '3px 8px',
-                        borderRadius: '999px',
-                        background: 'rgba(255, 46, 147, 0.2)',
-                        color: '#ffffff',
-                        fontWeight: '600',
-                        border: '1px solid rgba(255, 46, 147, 0.4)'
-                      }}
-                    >
-                      <Sparkles size={11} />
-                      <span>Featured</span>
-                    </span>
-                  )}
+    <Section
+      id="projects"
+      index={index}
+      label="Projects"
+      title={
+        <>
+          Selected <em className="text-accent">work</em>.
+        </>
+      }
+    >
+      <div className="grid gap-x-8 gap-y-16 md:grid-cols-2">
+        {projects.map((p, i) => (
+          <Reveal key={p.id} delay={(i % 2) * 0.12} className={i % 2 ? 'md:mt-24' : ''}>
+            <button onClick={() => setSelected(p)} className="group block w-full text-left" aria-label={`Open ${p.title}`}>
+              <motion.div className="mb-5 aspect-[4/3] overflow-hidden rounded-3xl bg-card" whileHover={{ y: -6 }}>
+                <Cover project={p} />
+              </motion.div>
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-serif text-4xl leading-none">{p.title}</h3>
+                  <p className="mt-2 text-muted">{p.summary}</p>
                 </div>
-
-                {/* Title & Subtitle */}
-                <h3
-                  style={{
-                    fontSize: '1.4rem',
-                    fontWeight: '700',
-                    color: '#ffffff',
-                    lineHeight: 1.25,
-                    marginBottom: '8px'
-                  }}
-                >
-                  {project.title}
-                </h3>
-                <div
-                  style={{
-                    fontSize: '0.86rem',
-                    color: 'var(--pink-secondary)',
-                    fontWeight: '500',
-                    marginBottom: '14px'
-                  }}
-                >
-                  {project.subtitle}
-                </div>
-
-                {/* Short Description */}
-                <p style={{ fontSize: '0.92rem', color: 'var(--text-medium)', lineHeight: 1.6, marginBottom: '20px' }}>
-                  {project.shortDescription}
-                </p>
-
-                {/* Key Metrics Pills */}
-                {project.metrics && (
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '20px' }}>
-                    {project.metrics.slice(0, 2).map((m, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          fontSize: '0.72rem',
-                          background: 'rgba(255, 255, 255, 0.03)',
-                          border: '1px solid rgba(255, 255, 255, 0.08)',
-                          borderRadius: '6px',
-                          padding: '3px 8px',
-                          color: '#e2e8f0',
-                          fontWeight: '500'
-                        }}
-                      >
-                        ⚡ {m}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                <span className="grid size-11 shrink-0 place-items-center rounded-full border border-line transition-colors group-hover:border-accent group-hover:bg-accent group-hover:text-accent-ink">
+                  <ArrowUpRight size={18} />
+                </span>
               </div>
-
-              <div>
-                {/* Tech Pills */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '22px' }}>
-                  {project.tags.slice(0, 4).map((tag, idx) => (
-                    <span key={idx} className="tech-pill" style={{ fontSize: '0.75rem', padding: '3px 9px' }}>
-                      {tag}
-                    </span>
-                  ))}
-                  {project.tags.length > 4 && (
-                    <span
-                      style={{
-                        fontSize: '0.75rem',
-                        color: 'var(--text-muted)',
-                        alignSelf: 'center',
-                        marginLeft: '4px'
-                      }}
-                    >
-                      +{project.tags.length - 4} more
-                    </span>
-                  )}
-                </div>
-
-                {/* Card Action Row */}
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    paddingTop: '16px',
-                    borderTop: '1px solid var(--border-glass)'
-                  }}
-                >
-                  {/* Case Study Trigger */}
-                  <button
-                    onClick={() => onSelectProject(project)}
-                    onMouseEnter={() => soundEngine.playHover()}
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '6px',
-                      fontSize: '0.88rem',
-                      fontWeight: '600',
-                      color: '#ffffff',
-                      transition: 'color 0.2s',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <span>Detail Studi Kasus</span>
-                    <ChevronRight size={16} color="var(--pink-primary)" />
-                  </button>
-
-                  {/* External Links */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Source Code"
-                        onClick={() => soundEngine.playClick()}
-                        onMouseEnter={() => soundEngine.playHover()}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '34px',
-                          height: '34px',
-                          borderRadius: '8px',
-                          background: 'rgba(255, 255, 255, 0.04)',
-                          border: '1px solid var(--border-glass)',
-                          color: 'var(--text-high)',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <Github size={15} />
-                      </a>
-                    )}
-
-                    {project.demoUrl && (
-                      <a
-                        href={project.demoUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        title="Live Demo / Expo Preview"
-                        onClick={() => soundEngine.playClick()}
-                        onMouseEnter={() => soundEngine.playHover()}
-                        style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          width: '34px',
-                          height: '34px',
-                          borderRadius: '8px',
-                          background: 'rgba(255, 46, 147, 0.15)',
-                          border: '1px solid var(--pink-border)',
-                          color: 'var(--pink-secondary)',
-                          transition: 'all 0.2s ease'
-                        }}
-                      >
-                        <ArrowUpRight size={16} />
-                      </a>
-                    )}
-                  </div>
-                </div>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {p.year && <Tag>{p.year}</Tag>}
+                {p.stack.map((s) => (
+                  <Tag key={s}>{s}</Tag>
+                ))}
               </div>
-            </div>
-          ))}
-        </div>
+            </button>
+          </Reveal>
+        ))}
       </div>
-    </section>
+
+      <ProjectModal project={selected} onClose={() => setSelected(null)} />
+    </Section>
   );
 };

@@ -1,26 +1,35 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tiara Mamuaya — Mobile Application Developer | Universitas Klabat</title>
-    <meta name="description" content="Portofolio interaktif Tiara Mamuaya, Mahasiswi Informatika Universitas Klabat (UNKLAB) dan Mobile Application Developer spesialis React Native, Expo Go, Python Flask, dan Supabase." />
-    <meta name="keywords" content="Tiara Mamuaya, Mobile Developer, React Native, Expo, Universitas Klabat, UNKLAB, Informatika, Portfolio, Manado, Python Flask, Supabase" />
+    <title>Tiara Mamuaya — Mobile Application Developer</title>
+    <meta name="description" content="Tiara Mamuaya is an Informatics student at Universitas Klabat and a mobile application developer building cross-platform apps with React Native, Expo, Flask and Supabase." />
     <meta name="author" content="Tiara Mamuaya" />
-    <meta name="theme-color" content="#07070a" />
+    <meta name="theme-color" content="#F6F2EC" />
 
-    <!-- Open Graph / Social Meta -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Tiara Mamuaya — Mobile Application Developer | Universitas Klabat" />
-    <meta property="og:description" content="Eksplorasi portofolio interaktif, proyek mobile app, sertifikasi, dan keahlian Tiara Mamuaya dengan nuansa Cyber-Pink." />
+    <meta property="og:url" content="https://tiarapretty.my.id" />
+    <meta property="og:title" content="Tiara Mamuaya — Mobile Application Developer" />
+    <meta property="og:description" content="Building smooth, modern & engaging mobile experiences." />
+    <meta property="og:image" content="https://tiarapretty.my.id/poses/depan.webp" />
 
-    <!-- Google Fonts Preconnect & Stylesheet -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+    <link rel="preload" as="image" href="/poses/depan.webp" />
 
-    <!-- Cyber Pink Monogram Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Apply the saved/system theme before paint to avoid a flash -->
+    <script>
+      try {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+      } catch (e) {}
+    </script>
   </head>
   <body>
     <div id="root"></div>
