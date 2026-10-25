@@ -75,7 +75,6 @@ export const Hero: React.FC = () => (
           </a>
           <a
             href="#contact"
-            data-smile
             className="inline-flex items-center rounded-full border border-ink/30 px-5 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
           >
             Say hello

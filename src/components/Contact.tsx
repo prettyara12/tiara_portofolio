@@ -24,7 +24,6 @@ export const Contact: React.FC<{ index: string }> = ({ index }) => (
     <Reveal>
       <a
         href={`mailto:${contact.email}`}
-        data-smile
         className="group inline-flex items-center gap-3 break-all font-serif text-4xl transition-colors hover:text-accent sm:text-6xl md:text-7xl"
       >
         {contact.email}
