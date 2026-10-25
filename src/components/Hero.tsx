@@ -16,7 +16,7 @@ export const Hero: React.FC = () => (
       aria-label={profile.name}
       className="pointer-events-none z-0 flex justify-center font-serif leading-[0.8] tracking-[-0.04em] text-[34vw] md:absolute md:inset-x-0 md:top-[9svh] md:text-[min(30vw,46svh)]"
     >
-      {profile.firstName.split('').map((ch, i) => (
+      {profile.firstName.toUpperCase().split('').map((ch, i) => (
         <span key={i} className="inline-block overflow-hidden pb-[0.06em]">
           <motion.span
             className="inline-block"
