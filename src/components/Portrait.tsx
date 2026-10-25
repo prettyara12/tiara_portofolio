@@ -48,6 +48,7 @@ const poseFor = (c: number, r: number): Pose => {
   return [h, v].filter(Boolean).join('-') as Pose;
 };
 
+const FADE_MS = 240;
 const clamp = (v: number) => Math.max(-1, Math.min(1, v));
 const GLANCES: Pose[] = [
   'depan',
@@ -148,7 +149,7 @@ export const Portrait: React.FC<{ className?: string }> = ({ className = '' }) =
           window.setTimeout(() => setBlink(false), 140);
           scheduleBlink();
         },
-        2500 + Math.random() * 3500
+        4000 + Math.random() * 4000
       );
     };
     scheduleBlink();
@@ -166,19 +167,35 @@ export const Portrait: React.FC<{ className?: string }> = ({ className = '' }) =
     };
   }, [reduced, tx, ty]);
 
-  const shown: Pose = smile ? 'senyum' : blink && look === 'depan' ? 'kedip' : look;
+  const target: Pose = smile ? 'senyum' : blink && look === 'depan' ? 'kedip' : look;
 
-  // Keep the previous photo fully opaque underneath while the new one fades in,
-  // otherwise two half-transparent cutouts let the page show through mid-fade.
+  // One crossfade at a time: the previous photo stays fully opaque underneath until the new one
+  // has finished fading in, then we jump straight to the latest target. Switching mid-fade made
+  // half-faded photos pop to full opacity, which read as flicker.
+  const [shown, setShown] = useState<Pose>('depan');
   const [prev, setPrev] = useState<Pose | null>(null);
-  const last = useRef<Pose>(shown);
+  const shownRef = useRef<Pose>('depan');
+  const targetRef = useRef<Pose>(target);
+  const busy = useRef(false);
+  targetRef.current = target;
+
   useEffect(() => {
-    if (last.current === shown) return;
-    setPrev(last.current);
-    last.current = shown;
-    const t = window.setTimeout(() => setPrev(null), 340);
-    return () => clearTimeout(t);
-  }, [shown]);
+    if (busy.current) return;
+    const advance = () => {
+      const next = targetRef.current;
+      if (next === shownRef.current) {
+        busy.current = false;
+        setPrev(null);
+        return;
+      }
+      busy.current = true;
+      setPrev(shownRef.current);
+      shownRef.current = next;
+      setShown(next);
+      window.setTimeout(advance, FADE_MS);
+    };
+    advance();
+  }, [target]);
 
   return (
     <div
@@ -195,9 +212,10 @@ export const Portrait: React.FC<{ className?: string }> = ({ className = '' }) =
             aria-hidden={p !== 'depan'}
             draggable={false}
             decoding="async"
-            className={`absolute inset-0 size-full object-contain object-bottom ${
+            style={{ transitionDuration: `${FADE_MS}ms` }}
+            className={`absolute inset-0 size-full object-contain object-bottom will-change-[opacity] ${
               p === shown
-                ? 'z-20 opacity-100 transition-opacity duration-300 ease-out'
+                ? 'z-20 opacity-100 transition-opacity ease-out'
                 : p === prev
                   ? 'z-10 opacity-100'
                   : 'opacity-0'
