@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Box, Menu, X } from 'lucide-react';
 import { profile } from '../data/profile';
 
 export interface NavLink {
@@ -8,7 +8,11 @@ export interface NavLink {
   label: string;
 }
 
-const useActiveSection = (ids: string[]) => {
+export const openStudio = () => {
+  window.location.hash = '/studio';
+};
+
+export const useActiveSection = (ids: string[]) => {
   const [active, setActive] = useState('');
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -39,7 +43,9 @@ export const Navbar: React.FC<{ links: NavLink[] }> = ({ links }) => {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-40 transition-[background-color,border-color] duration-300 ${
-        scrolled || open ? 'border-b border-line bg-paper/80 backdrop-blur-md' : 'border-b border-transparent'
+        scrolled || open
+          ? 'border-b border-line bg-[#f6f2ec]/95 text-[#1c1917] shadow-sm backdrop-blur-md'
+          : 'border-b border-transparent text-[#1c1917]'
       }`}
     >
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-5 sm:px-8">
@@ -65,6 +71,14 @@ export const Navbar: React.FC<{ links: NavLink[] }> = ({ links }) => {
         </ul>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={openStudio}
+            className="group inline-flex h-10 items-center gap-2 rounded-full bg-ink px-4 text-sm text-paper transition-colors hover:bg-accent"
+          >
+            <Box size={15} className="transition-transform duration-500 group-hover:rotate-180" />
+            <span className="hidden sm:inline">3D Studio</span>
+            <span className="sm:hidden">3D</span>
+          </button>
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label={open ? 'Close menu' : 'Open menu'}
