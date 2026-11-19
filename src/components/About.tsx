@@ -14,6 +14,7 @@ export const About: React.FC<{ index: string }> = ({ index }) => (
     id="about"
     index={index}
     label="About"
+    variant="pink"
     title={
       <>
         Building <em className="text-accent">smooth</em>, modern & engaging mobile experiences.

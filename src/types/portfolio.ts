@@ -9,6 +9,8 @@ export interface Project {
   highlights: string[];
   /** Path under /public, e.g. '/projects/campus-hub.webp' */
   image?: string;
+  video?: string;
+  screenshots?: string[];
   repoUrl?: string;
   liveUrl?: string;
 }
@@ -28,6 +30,7 @@ export interface Certificate {
   title: string;
   issuer: string;
   date: string;
+  category?: 'certifications' | 'competition' | 'organizational' | 'other';
   /** Path under /public, e.g. '/certificates/meta-rn.webp' */
   image?: string;
   credentialUrl?: string;

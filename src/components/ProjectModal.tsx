@@ -8,7 +8,29 @@ export const ProjectModal: React.FC<{ project: Project | null; onClose: () => vo
   <Modal open={!!project} onClose={onClose} label={project?.title ?? 'Project'}>
     {project && (
       <article>
-        {project.image && <img src={project.image} alt="" className="mb-8 aspect-video w-full rounded-2xl object-cover" />}
+        {project.video ? (
+          <div className="mb-8 mt-6 aspect-video w-full overflow-hidden rounded-2xl bg-black shadow-lg sm:mt-8">
+            <video
+              src={project.video}
+              poster={project.image}
+              controls
+              playsInline
+              preload="metadata"
+              className="size-full object-contain"
+            >
+              Browser Anda tidak mendukung pemutar video HTML5.
+            </video>
+          </div>
+        ) : (
+          project.image && (
+            <img
+              src={project.image}
+              alt={project.title}
+              className="mb-8 mt-6 aspect-video w-full rounded-2xl object-cover sm:mt-8"
+            />
+          )
+        )}
+
         <p className="text-xs uppercase tracking-[0.18em] text-muted">
           {[project.year, project.role].filter(Boolean).join(' · ')}
         </p>
@@ -31,6 +53,30 @@ export const ProjectModal: React.FC<{ project: Project | null; onClose: () => vo
             <Tag key={s}>{s}</Tag>
           ))}
         </div>
+
+        {project.screenshots && project.screenshots.length > 0 && (
+          <div className="mt-10 border-t border-line pt-8">
+            <div className="flex items-center justify-between">
+              <h4 className="text-xs uppercase tracking-[0.18em] text-muted">Tangkapan Layar Aplikasi</h4>
+              <span className="text-xs text-muted">Geser untuk melihat ({project.screenshots.length} layar)</span>
+            </div>
+            <div className="mt-4 flex gap-4 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory">
+              {project.screenshots.map((shot, idx) => (
+                <div
+                  key={shot}
+                  className="relative shrink-0 snap-start overflow-hidden rounded-2xl border border-line bg-card shadow-sm transition-transform hover:scale-[1.02]"
+                >
+                  <img
+                    src={shot}
+                    alt={`${project.title} screenshot ${idx + 1}`}
+                    loading="lazy"
+                    className="h-72 w-auto object-contain sm:h-84"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {(project.liveUrl || project.repoUrl) && (
           <div className="mt-8 flex flex-wrap gap-3">

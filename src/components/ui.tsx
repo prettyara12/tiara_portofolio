@@ -26,17 +26,20 @@ export const Section: React.FC<{
   label: string;
   title: React.ReactNode;
   children: React.ReactNode;
-}> = ({ id, index, label, title, children }) => (
-  <section id={id} className="mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-36">
-    <Reveal>
-      <p className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted">
-        <span className="text-accent">{index}</span>
-        <span className="h-px w-10 bg-line" />
-        {label}
-      </p>
-      <h2 className="mb-14 max-w-3xl font-serif text-5xl leading-[0.95] tracking-tight md:mb-20 md:text-7xl">{title}</h2>
-    </Reveal>
-    {children}
+  variant?: 'default' | 'pink';
+}> = ({ id, index, label, title, children, variant = 'default' }) => (
+  <section id={id} className={`w-full ${variant === 'pink' ? 'section-pink' : ''}`}>
+    <div className="mx-auto max-w-6xl px-5 py-24 sm:px-8 md:py-36">
+      <Reveal>
+        <p className="mb-6 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-muted">
+          <span className="text-accent">{index}</span>
+          <span className="h-px w-10 bg-line" />
+          {label}
+        </p>
+        <h2 className="mb-14 max-w-3xl font-serif text-5xl leading-[0.95] tracking-tight md:mb-20 md:text-7xl">{title}</h2>
+      </Reveal>
+      {children}
+    </div>
   </section>
 );
 

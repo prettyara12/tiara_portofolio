@@ -19,11 +19,14 @@ export const profile = {
 
 // Leave a link empty ('') to hide its button everywhere.
 export const contact = {
-  email: 'tiaramamuaya@gmail.com',
+  email: 'tiaramamuaya1212@gmail.com',
   whatsapp: '', // digits only with country code, e.g. '6281234567890'
-  github: '',
-  linkedin: '',
-  instagram: ''
+  github: 'https://github.com/prettyara12',
+  linkedin:
+    'https://www.linkedin.com/in/tiara-pretty-mamuaya-5b96bb40a?utm_source=share_via&utm_content=profile&utm_medium=member_ios',
+  instagram:
+    'https://www.instagram.com/prttyara.m?rpxt=MWJpaXE0MnRjdnpudQ%3D%3D&utm_source=qr',
+  youtube: 'https://youtube.com/@tiaramamuaya12?si=AYgoOa_LCG_rqaZu'
 };
 
 export const skills: SkillGroup[] = [

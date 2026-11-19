@@ -11,7 +11,11 @@ export const CertificateLightbox: React.FC<{ certificate: Certificate | null; on
     {certificate && (
       <figure>
         {certificate.image && (
-          <img src={certificate.image} alt={certificate.title} className="mb-6 w-full rounded-xl border border-line" />
+          <img
+            src={certificate.image}
+            alt={certificate.title}
+            className="mb-6 mt-6 w-full rounded-xl border border-line sm:mt-8"
+          />
         )}
         <figcaption>
           <h3 className="pr-12 font-serif text-4xl leading-tight">{certificate.title}</h3>
