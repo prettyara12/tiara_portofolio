@@ -93,6 +93,19 @@ const activities: Activity[] = [
     duration: [9, 13]
   },
   {
+    id: 'sofa',
+    place: 'the sofa',
+    label: () => 'Relaxing with a good book 📖',
+    approach: [4.98, 3.5],
+    at: [4.98, 4.66],
+    yaw: Math.PI,
+    pose: 'sit',
+    drop: -0.3,
+    anim: 'read',
+    prop: 'book',
+    duration: [10, 14]
+  },
+  {
     id: 'window',
     place: 'the window',
     label: (night) => (night ? 'Stargazing 🌙' : 'Watching the clouds ☁️'),
@@ -125,15 +138,17 @@ const activities: Activity[] = [
   }
 ];
 
+const rug = activities.find((a) => a.id === 'rug')!;
+
 const hello: Activity = {
-  ...activities[6],
+  ...rug,
   id: 'hello',
   label: () => 'Hi there! 👋',
   anim: 'wave',
   duration: [1e9, 1e9]
 };
 const dance: Activity = {
-  ...activities[6],
+  ...rug,
   id: 'dance',
   label: () => 'Dancing to lo-fi 💃',
   anim: 'dance',
@@ -141,7 +156,7 @@ const dance: Activity = {
 };
 
 const start: Activity = {
-  ...activities[6],
+  ...rug,
   id: 'start',
   label: () => '',
   anim: 'idle',
@@ -202,7 +217,8 @@ export const Avatar: React.FC = () => {
     blend: 0, // 0 = at approach point, 1 = fully in the pose
     walkPhase: 0,
     moving: 0,
-    lastId: 'rug'
+    lastId: 'rug',
+    reqN: 0
   });
 
   useEffect(() => {
@@ -256,6 +272,13 @@ export const Avatar: React.FC = () => {
     // interrupt for "About" (come say hi) or for music (dance)
     const wanted = spot === 'about' ? 'hello' : music ? 'dance' : null;
     if (wanted && s.act.id !== wanted) goTo(wanted === 'hello' ? hello : dance);
+    // the user clicked something (e.g. the sofa) to call her over
+    const req = useStudio.getState().request;
+    if (req.n !== s.reqN) {
+      s.reqN = req.n;
+      const asked = activities.find((a) => a.id === req.id);
+      if (asked && !wanted && s.act.id !== asked.id) goTo(asked);
+    }
     if (!wanted && (s.act.id === 'hello' || s.act.id === 'dance') && s.phase === 'act')
       s.dur = Math.min(s.dur, s.t + 1.5);
 

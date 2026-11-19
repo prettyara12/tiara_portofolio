@@ -374,7 +374,8 @@ export const Studio: React.FC<{ onExit: () => void }> = ({ onExit }) => {
                 ))}
               </dl>
               <p className="mt-4 text-xs opacity-60">
-                Tip: click the window, the neon sign, the cat and the record player too.
+                Tip: click the clock, the RGB PC, the sofa, the window, the neon sign, the cat and
+                the record player too.
               </p>
             </motion.div>
           </motion.div>

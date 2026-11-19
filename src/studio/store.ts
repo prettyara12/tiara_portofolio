@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
-export type Spot = 'room' | 'projects' | 'skills' | 'experience' | 'awards' | 'about' | 'music';
+export type Spot =
+  'room' | 'projects' | 'skills' | 'experience' | 'awards' | 'about' | 'music' | 'clock';
 
 /** Where the camera sits and what it looks at for each spot. */
 export const views: Record<
@@ -13,7 +14,9 @@ export const views: Record<
   experience: { pos: [0.2, 3.5, 4.0], target: [-7.0, 2.6, 2.4] },
   awards: { pos: [0.8, 4.0, -2.1], target: [-7.0, 3.1, -2.45] },
   about: { pos: [4.6, 3.3, 5.1], target: [0.2, 1.3, 0.5] },
-  music: { pos: [-1.8, 3.2, 4.6], target: [-6.2, 1.2, 2.4] }
+  music: { pos: [-1.8, 3.2, 4.6], target: [-6.2, 1.2, 2.4] },
+  // straight on to the wall clock, slightly off-axis so the perspective feels alive
+  clock: { pos: [1.9, 4.55, -2.1], target: [1.2, 4.35, -5.47] }
 };
 
 export const tabs: { id: Spot; label: string }[] = [
@@ -39,6 +42,9 @@ interface StudioState {
   setHd: (hd: boolean) => void;
   wave: number;
   meow: number;
+  /** ask the avatar to go and do something (e.g. relax on the sofa) */
+  request: { id: string; n: number };
+  requestAct: (id: string) => void;
   setSpot: (s: Spot) => void;
   setHovered: (h: string | null) => void;
   toggleNight: () => void;
@@ -67,6 +73,8 @@ export const useStudio = create<StudioState>((set) => ({
   setHd: (hd) => set({ hd }),
   wave: 0,
   meow: 0,
+  request: { id: '', n: 0 },
+  requestAct: (id) => set((s) => ({ request: { id, n: s.request.n + 1 } })),
   setSpot: (spot) => set({ spot }),
   setHovered: (hovered) => set({ hovered }),
   toggleNight: () => set((s) => ({ night: !s.night })),

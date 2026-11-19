@@ -36,6 +36,8 @@ import {
 import { Cat } from './Characters';
 import { Avatar } from './Avatar';
 import { Lamps } from './Lamps';
+import { GamingPC } from './Gaming';
+import { Sofa } from './Sofa';
 
 const ROOM_LIMITS = { minAz: 0.06, maxAz: Math.PI / 2 - 0.06, minPolar: 0.45, maxPolar: 1.25 };
 
@@ -275,6 +277,8 @@ export const Scene: React.FC<{
         <Clock />
         <Bookshelf />
         <Desk />
+        <GamingPC position={[1.15, 0, -4.7]} />
+        <Sofa position={[6.8, 0, 5.3]} />
         <Corkboard />
         <RecordPlayer />
         <CozyCorner />

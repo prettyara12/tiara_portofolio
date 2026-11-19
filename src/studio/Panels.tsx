@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { ArrowUpRight, Github, Instagram, Linkedin, Mail, MapPin, Youtube } from 'lucide-react';
 import type { Certificate, Project } from '../types/portfolio';
 import { useStudio, type Spot } from './store';
@@ -229,6 +229,91 @@ const AboutPanel: React.FC = () => (
   </>
 );
 
+/** Ticks once per second, right on the second boundary, so it lines up with the 3D second hand. */
+const useNow = () => {
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    let id = 0;
+    const tick = () => {
+      setNow(new Date());
+      id = window.setTimeout(tick, 1000 - (Date.now() % 1000) + 8);
+    };
+    id = window.setTimeout(tick, 1000 - (Date.now() % 1000) + 8);
+    return () => window.clearTimeout(id);
+  }, []);
+  return now;
+};
+
+// North Sulawesi is on WITA (UTC+8) all year round
+const HOME_ZONE = 'Asia/Makassar';
+const HOME_OFFSET_MIN = 8 * 60;
+
+const greetingFor = (hour: number) =>
+  hour < 5
+    ? 'Late night'
+    : hour < 11
+      ? 'Good morning'
+      : hour < 15
+        ? 'Good afternoon'
+        : hour < 19
+          ? 'Good evening'
+          : 'Good night';
+
+const ClockPanel: React.FC = () => {
+  const now = useNow();
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const time = (d: Date, timeZone?: string) =>
+    d.toLocaleTimeString('en-GB', { hour12: false, timeZone });
+  const [hh, mm, ss] = time(now).split(':');
+  const homeHour = Number(
+    now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', timeZone: HOME_ZONE })
+  );
+  const diffH = (HOME_OFFSET_MIN + now.getTimezoneOffset()) / 60;
+  const diffText =
+    diffH === 0
+      ? 'Same time zone as you'
+      : `${Math.abs(diffH)}h ${diffH > 0 ? 'ahead of' : 'behind'} you`;
+
+  return (
+    <>
+      <Heading kicker="Hanging on the wall" title="Clock">
+        The hands on my wall clock follow your device's time, second by second.
+      </Heading>
+      <div className="studio-card text-center">
+        <p className="studio-kicker">Your time · {zone.replace('_', ' ')}</p>
+        <p
+          className="mt-2 font-serif text-6xl leading-none tabular-nums sm:text-7xl"
+          aria-label={time(now)}
+        >
+          {hh}
+          <span className="mx-0.5 inline-block animate-pulse text-[var(--studio-accent)]">:</span>
+          {mm}
+          <span className="ml-2 align-top text-3xl opacity-60">{ss}</span>
+        </p>
+        <p className="mt-3 text-sm opacity-80">
+          {now.toLocaleDateString('en-GB', {
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          })}
+        </p>
+      </div>
+      <div className="studio-card mt-3">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="studio-kicker">My time · {profile.location.split(',')[0]} (WITA)</p>
+            <p className="mt-1 text-sm opacity-75">
+              {greetingFor(homeHour)} from here · {diffText}
+            </p>
+          </div>
+          <p className="font-serif text-3xl tabular-nums">{time(now, HOME_ZONE).slice(0, 5)}</p>
+        </div>
+      </div>
+    </>
+  );
+};
+
 export const PanelContent: React.FC<{
   spot: Spot;
   onOpenProject: (p: Project) => void;
@@ -245,6 +330,8 @@ export const PanelContent: React.FC<{
       return <AwardsPanel onOpen={onOpenCertificate} />;
     case 'about':
       return <AboutPanel />;
+    case 'clock':
+      return <ClockPanel />;
     default:
       return null;
   }

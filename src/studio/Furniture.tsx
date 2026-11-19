@@ -416,6 +416,7 @@ export const NeonSign: React.FC = () => {
 };
 
 export const Clock: React.FC = () => {
+  const setSpot = useStudio((s) => s.setSpot);
   const face = useMemo(clockFaceTexture, []);
   const h = useRef<THREE.Group>(null);
   const m = useRef<THREE.Group>(null);
@@ -435,7 +436,13 @@ export const Clock: React.FC = () => {
     [s, 0.33, 0.01, palette.rose, 0.06]
   ];
   return (
-    <group position={[1.2, 4.35, -5.47]}>
+    <Hotspot
+      id="clock"
+      label="Clock — see the time"
+      onSelect={() => setSpot('clock')}
+      position={[1.2, 4.35, -5.47]}
+      lift={0.08}
+    >
       <mesh rotation-x={Math.PI / 2} castShadow>
         <cylinderGeometry args={[0.46, 0.46, 0.08, 40]} />
         <meshStandardMaterial color={palette.rose} roughness={0.4} />
@@ -453,7 +460,7 @@ export const Clock: React.FC = () => {
           </mesh>
         </group>
       ))}
-    </group>
+    </Hotspot>
   );
 };
 
