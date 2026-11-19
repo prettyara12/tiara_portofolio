@@ -232,8 +232,10 @@ export const Scene: React.FC<{
 }> = ({ panelOffset, onReady, ready }) => {
   const hd = useStudio((s) => s.hd);
   const setHd = useStudio((s) => s.setHd);
-  const [dpr, setDpr] = React.useState(hdDpr);
-  useEffect(() => setDpr(hd ? hdDpr() : Math.min(1.25, window.devicePixelRatio || 1)), [hd]);
+  // derive the pixel ratio in the same render as the HD flag, so the effect buffers are
+  // never created at one resolution and then shown at another (that caused "ghost" copies)
+  const [highDpr, setHighDpr] = React.useState(hdDpr);
+  const dpr = hd ? highDpr : Math.min(1.25, window.devicePixelRatio || 1);
   return (
     <Canvas
       shadows="soft"
@@ -253,7 +255,7 @@ export const Scene: React.FC<{
             // step down gently: drop AO first, then resolution, then the post effects
             const st = useStudio.getState();
             if (st.hd && st.ao) st.setAo(false);
-            else if (dpr > 1.25) setDpr(1.25);
+            else if (st.hd && highDpr > 1.25) setHighDpr(1.25);
             else setHd(false);
           }}
           onFallback={() => setHd(false)}
@@ -286,7 +288,8 @@ export const Scene: React.FC<{
       </Suspense>
       {hd && (
         <Suspense fallback={null}>
-          <Effects />
+          {/* remount on resolution change so every render target matches the canvas */}
+          <Effects key={dpr} />
         </Suspense>
       )}
     </Canvas>
