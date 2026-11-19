@@ -54,7 +54,7 @@ const activities: Activity[] = [
     at: [3.35, -3.5],
     yaw: Math.PI,
     pose: 'sit',
-    drop: -0.42,
+    drop: 0.44, // chair seat top is 1.02; hip joint sits ~0.1 above it
     anim: 'type',
     duration: [10, 15]
   },
@@ -100,7 +100,7 @@ const activities: Activity[] = [
     at: [4.98, 4.66],
     yaw: Math.PI,
     pose: 'sit',
-    drop: -0.3,
+    drop: 0.07, // sofa cushion top is 0.64
     anim: 'read',
     prop: 'book',
     duration: [10, 14]
