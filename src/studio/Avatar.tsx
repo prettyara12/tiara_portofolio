@@ -84,10 +84,10 @@ const activities: Activity[] = [
     place: 'the bean bag',
     label: () => 'Scrolling for UI inspiration 📱',
     approach: [4.0, 0.9],
-    at: [5.0, 0.3],
+    at: [4.9, 0.2],
     yaw: Math.PI / 4,
     pose: 'sit',
-    drop: -0.22,
+    drop: 0.3, // bean bag dome tops out at ~0.98, a little squished under her
     anim: 'phone',
     prop: 'phone',
     duration: [9, 13]
