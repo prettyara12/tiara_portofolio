@@ -38,6 +38,42 @@ Tersedia sistem koleksi bernilai tinggi (koin emas, emas batangan, dan piala kem
     liveUrl: ''
   },
   {
+    id: 'flooddetec-ai',
+    title: 'FloodDetec AI',
+    summary: 'Sistem segmentasi citra udara berbasis Attention U-Net untuk memetakan genangan banjir, menghitung luasnya, dan menentukan tingkat risiko dalam hitungan detik.',
+    description: `FloodDetec AI adalah sistem segmentasi semantik untuk mendeteksi dan menghitung luas genangan banjir pada citra udara (drone dan satelit). Model Attention U-Net dilatih pada dataset Kaggle Flood Area Segmentation, lalu menghasilkan peta probabilitas air 256 × 256 yang diubah menjadi masker, overlay, dan persentase area tergenang.
+
+Arsitektur Attention U-Net menambahkan empat attention gate pada setiap skip connection, sehingga fitur permukaan air diperkuat sementara atap, pepohonan, dan bayangan diredam sebelum digabung ke decoder. Inferensi berjalan lokal di CPU melalui ONNX Runtime dan dapat beralih ke TensorFlow/Keras, dilayani oleh backend FastAPI.
+
+Studio Analisis menyediakan pembanding sebelum/sesudah, ambang batas probabilitas yang dapat diatur tanpa inferensi ulang, klasifikasi risiko (Aman, Waspada, Siaga, Awas), riwayat analisis di browser, serta laporan otomatis dan asisten AI untuk rekomendasi mitigasi. Proyek ini juga dilengkapi dokumentasi PRD, system design, dan model card lengkap.`,
+    year: '2026',
+    role: 'Machine Learning & Fullstack Developer',
+    stack: ['Attention U-Net', 'TensorFlow / Keras', 'ONNX Runtime', 'FastAPI', 'OpenCV', 'Google Gemini', 'JavaScript'],
+    highlights: [
+      'Segmentasi piksel air pada citra udara dengan Attention U-Net (4 attention gate, bottleneck 512 filter)',
+      'Inferensi lokal berbasis ONNX Runtime di CPU dengan dukungan alternatif TensorFlow/Keras',
+      'Ambang batas probabilitas 0,05 – 0,95 yang menghitung ulang luas genangan tanpa inferensi ulang',
+      'Klasifikasi risiko otomatis: Aman (< 5%), Waspada, Siaga, hingga Awas (≥ 50% area)',
+      'Studio Analisis dengan pembanding sebelum/sesudah, unduh masker PNG, laporan PDF, dan riwayat analisis',
+      'Laporan situasi otomatis dan asisten AI Gemini untuk rekomendasi mitigasi, dengan fallback saat API tidak tersedia'
+    ],
+    image: '/projects/flooddetec/cover.png',
+    video: '/projects/flooddetec/promo.mp4',
+    screenshots: [
+      '/projects/flooddetec/screenshots/01-beranda.png',
+      '/projects/flooddetec/screenshots/02-hasil-bandingkan.png',
+      '/projects/flooddetec/screenshots/03-mode-overlay.png',
+      '/projects/flooddetec/screenshots/04-mode-masker.png',
+      '/projects/flooddetec/screenshots/05-ambang-probabilitas.png',
+      '/projects/flooddetec/screenshots/06-riwayat-analisis.png',
+      '/projects/flooddetec/screenshots/07-asisten-ai.png',
+      '/projects/flooddetec/screenshots/08-model-api.png',
+      '/projects/flooddetec/screenshots/09-tema-terang.png'
+    ],
+    repoUrl: 'https://github.com/prettyara12/FloodDetec-AI',
+    liveUrl: ''
+  },
+  {
     id: 'edupartner-ai',
     title: 'EduPartner AI',
     summary: 'Aplikasi mobile tutoring cerdas yang menghubungkan pelajar dan tutor dengan asisten AI terintegrasi.',
@@ -138,42 +174,6 @@ Sistem juga dilengkapi dengan asisten chatbot interaktif berbasis Google Gemini 
       '/projects/dentavision/screenshots/06-tampilan-aplikasi.png'
     ],
     repoUrl: 'https://github.com/prettyara12/DentaVision-AI',
-    liveUrl: ''
-  },
-  {
-    id: 'flooddetec-ai',
-    title: 'FloodDetec AI',
-    summary: 'Sistem segmentasi citra udara berbasis Attention U-Net untuk memetakan genangan banjir, menghitung luasnya, dan menentukan tingkat risiko dalam hitungan detik.',
-    description: `FloodDetec AI adalah sistem segmentasi semantik untuk mendeteksi dan menghitung luas genangan banjir pada citra udara (drone dan satelit). Model Attention U-Net dilatih pada dataset Kaggle Flood Area Segmentation, lalu menghasilkan peta probabilitas air 256 × 256 yang diubah menjadi masker, overlay, dan persentase area tergenang.
-
-Arsitektur Attention U-Net menambahkan empat attention gate pada setiap skip connection, sehingga fitur permukaan air diperkuat sementara atap, pepohonan, dan bayangan diredam sebelum digabung ke decoder. Inferensi berjalan lokal di CPU melalui ONNX Runtime dan dapat beralih ke TensorFlow/Keras, dilayani oleh backend FastAPI.
-
-Studio Analisis menyediakan pembanding sebelum/sesudah, ambang batas probabilitas yang dapat diatur tanpa inferensi ulang, klasifikasi risiko (Aman, Waspada, Siaga, Awas), riwayat analisis di browser, serta laporan otomatis dan asisten AI untuk rekomendasi mitigasi. Proyek ini juga dilengkapi dokumentasi PRD, system design, dan model card lengkap.`,
-    year: '2026',
-    role: 'Machine Learning & Fullstack Developer',
-    stack: ['Attention U-Net', 'TensorFlow / Keras', 'ONNX Runtime', 'FastAPI', 'OpenCV', 'Google Gemini', 'JavaScript'],
-    highlights: [
-      'Segmentasi piksel air pada citra udara dengan Attention U-Net (4 attention gate, bottleneck 512 filter)',
-      'Inferensi lokal berbasis ONNX Runtime di CPU dengan dukungan alternatif TensorFlow/Keras',
-      'Ambang batas probabilitas 0,05 – 0,95 yang menghitung ulang luas genangan tanpa inferensi ulang',
-      'Klasifikasi risiko otomatis: Aman (< 5%), Waspada, Siaga, hingga Awas (≥ 50% area)',
-      'Studio Analisis dengan pembanding sebelum/sesudah, unduh masker PNG, laporan PDF, dan riwayat analisis',
-      'Laporan situasi otomatis dan asisten AI Gemini untuk rekomendasi mitigasi, dengan fallback saat API tidak tersedia'
-    ],
-    image: '/projects/flooddetec/cover.png',
-    video: '/projects/flooddetec/promo.mp4',
-    screenshots: [
-      '/projects/flooddetec/screenshots/01-beranda.png',
-      '/projects/flooddetec/screenshots/02-hasil-bandingkan.png',
-      '/projects/flooddetec/screenshots/03-mode-overlay.png',
-      '/projects/flooddetec/screenshots/04-mode-masker.png',
-      '/projects/flooddetec/screenshots/05-ambang-probabilitas.png',
-      '/projects/flooddetec/screenshots/06-riwayat-analisis.png',
-      '/projects/flooddetec/screenshots/07-asisten-ai.png',
-      '/projects/flooddetec/screenshots/08-model-api.png',
-      '/projects/flooddetec/screenshots/09-tema-terang.png'
-    ],
-    repoUrl: 'https://github.com/prettyara12/FloodDetec-AI',
     liveUrl: ''
   }
 ];
